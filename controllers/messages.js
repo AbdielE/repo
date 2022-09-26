@@ -1,5 +1,7 @@
-const rootMessage = (req,res)=>{
-    res.send("Hola")
+const { request, response } = require("express")
+
+const rootMessage = (req = request,res = response)=>{
+    res.json({msg:"Hola"})
 }
 
 const hiMessage = (req,res)=>{
