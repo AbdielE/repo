@@ -4,23 +4,23 @@ const rootMessage = (req = request,res = response)=>{
     res.json({msg:"Hola"})
 }
 
-const hiMessage = (req,res)=>{
-    res.send("Hola mundo")
+const hiMessage = (req = request,res = response)=>{
+    res.json({msg:"Hola"})
 }
 
-const byeMessage = (req,res)=>{
-    res.send("Adios mundo")
+const byeMessage = (req = request,res = response)=>{
+    res.json({msg:"Adios mundo"})
 }
 
-const postMessage = (req,res)=>{
-    res.send("Mensaje post")
+const postMessage = (req = request,res = response)=>{
+    res.json({msg:"Mensaje POST"})
 }
 
-const putMessage = (req,res)=>{
-    res.send("Mensaje put")
+const putMessage = (req = request,res = response)=>{
+    res.json({msg:"Mensaje PUT"})
 }
 
-const deleteMessage = (req,res)=>{
-    res.send("Mensaje delete")
+const deleteMessage = (req = request,res = response)=>{
+    res.json({msg:"Mensaje DELETE"})
 }
 module.exports = {rootMessage, hiMessage, byeMessage, postMessage, putMessage, deleteMessage}
