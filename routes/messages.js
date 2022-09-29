@@ -12,7 +12,7 @@ const {
 //router.get("",()=>{})
 router.get("/", rootMessage)
 
-router.get("/hi", hiMessage)
+router.get("/hi/:name", hiMessage)
 
 router.get("/bye", byeMessage)
 
