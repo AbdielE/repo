@@ -1,11 +1,13 @@
 const express = require('express')
 const messages = require('./routes/messages')
+const usuarios = require('./routes/usuarios')
 const cors = require("cors")
 class Server{
     constructor(){
         this.app = express()
         this.paths = {
-            messages:"/api/v1/messages"
+            messages:"/api/v1/messages",
+            usuarios:"/api/v1/usuarios"
         }
         this.middlewares()
         this.routes()
@@ -16,6 +18,7 @@ class Server{
         //    res.send('Hola mundo')
         //})
         this.app.use(this.paths.messages, messages)
+        this.app.use(this.paths.usuarios, usuarios)
     }
 
     middlewares(){
