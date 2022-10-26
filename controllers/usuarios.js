@@ -76,7 +76,7 @@ const addUser = async (req =request, res = response) => {
         Edad,
         Genero,
         Contrasena,
-        Fecha_Nacimiento,
+        Fecha_Nacimiento = '1900-01-01',
         Activo
     } = req.body
 
@@ -119,7 +119,7 @@ const addUser = async (req =request, res = response) => {
                 '${Nombre}',
                 '${Apellidos}',
                 ${Edad},
-                '${Genero}',
+                '${Genero || ''}',
                 '${Contrasena}',
                 '${Fecha_Nacimiento}',
                 '${Activo}'
