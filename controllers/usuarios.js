@@ -1,4 +1,5 @@
 const { request, response } = require("express");
+const bcryptjs = require("bcryptjs")
 const pool = require("../db/connection")
 
 const getUsers = async (req =request, res = response) => {
@@ -103,6 +104,8 @@ const addUser = async (req =request, res = response) => {
             return
         }
 
+        const salt = bcryptjs.genSaltSync()
+        const contrasenaCifrada = bcryptjs.hashSync(Contrasena, salt)
 
         const {affectedRows} = await conn.query(`
             INSERT INTO usuarios (
@@ -120,7 +123,7 @@ const addUser = async (req =request, res = response) => {
                 '${Apellidos}',
                 ${Edad},
                 '${Genero || ''}',
-                '${Contrasena}',
+                '${contrasenaCifrada}',
                 '${Fecha_Nacimiento}',
                 '${Activo}'
             )
