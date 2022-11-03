@@ -252,4 +252,72 @@ const signIn = async (req =request, res = response) => {
     }
 }
 
-module.exports = {getUsers, getUserbyID, deleteUserbyID, addUser, updateUserByUsuario, signIn}
+const updateContrasena = async (req =request, res = response) => {
+    const {
+        Usuario,
+        Contrasena,
+        ContrasenaNueva
+    } = req.body
+
+    if(
+        !Usuario,
+        !Contrasena,
+        !ContrasenaNueva
+    ){
+        res.status(400).json({msg:"Falta información del usuario."})
+        return
+    }
+
+    let conn;
+
+    try{
+        conn = await pool.getConnection()
+
+        const [user] = await conn.query(`
+            SELECT Usuario, Contrasena 
+            FROM usuarios 
+            WHERE Usuario = '${Usuario}'
+        `)
+
+        if(!user){
+            res.status(403).json({msg:`El usuario '${Usuario}' no se encuentra registrado.`})
+            return
+        }
+
+        const accesoValido = bcryptjs.compareSync(Contrasena, user.Contrasena)
+
+        if(!accesoValido){
+            res.status(403).json({msg:`La contraseña es incorrecta.`})
+            return
+        }
+
+        if(Contrasena===ContrasenaNueva){
+            res.status(403).json({msg:`No puede utilizar la contraseña anterior, ingrese una nueva.`})
+            return
+        }
+
+        const salt = bcryptjs.genSaltSync()
+        const contrasenaCifrada = bcryptjs.hashSync(ContrasenaNueva, salt)
+
+        const {affectedRows} = await conn.query(`
+            UPDATE usuarios SET
+                Contrasena = '${contrasenaCifrada}'
+            WHERE Usuario = '${Usuario}'
+        `, (error)=>{throw new error})
+
+        if(affectedRows===0){
+            res.status(404).json({msg:`No se pudo actualizar la contraseña`})
+            return
+        }
+        res.json({msg:`La contraseña se actualizó satisfactoriamente.`})
+    }catch(error){
+        console.log(error)
+        res.status(500).json({error})
+    }finally{
+        if(conn){
+            conn.end()
+        }
+    }
+}
+
+module.exports = {getUsers, getUserbyID, deleteUserbyID, addUser, updateUserByUsuario, signIn, updateContrasena}
