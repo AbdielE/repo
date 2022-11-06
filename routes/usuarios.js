@@ -6,7 +6,7 @@ const router = Router()
 
 //GET
 router.get("/",getUsers)
-router.get("/id/:id",getUserbyID)
+router.get("/id/:id",getUserbyID) //http://localhost:4000/api/v1/usuarios/id/11
 
 //POST
 router.post("/", addUser)
@@ -17,6 +17,6 @@ router.put("/", updateUserByUsuario)
 router.put("/update", updateContrasena)
 
 //DELETE
-router.delete("/", deleteUserbyID)
+router.delete("/", deleteUserbyID) // http://localhost:4000/api/v1/usuarios/?id=1
 
 module.exports = router
